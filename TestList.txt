@@ -1,0 +1,7 @@
+- read all setting from a configuration file
+	- OAuth token
+	- username
+	- channel
+	- server 
+	- port
+- return settings as a setting object

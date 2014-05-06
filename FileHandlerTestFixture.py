@@ -22,7 +22,7 @@ class TestFileHandler(unittest.TestCase):
 		self.assertEqual(self.options['server'], 'testserver')
 
 	def testParsePort(self):
-		self.assertEqual(self.options['port'], '1234')
+		self.assertEqual(int(self.options['port']), 1234)
 
 if __name__ == '__main__':
 	unittest.main()

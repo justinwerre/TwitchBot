@@ -5,3 +5,4 @@
 	- server done
 	- port done
 - return settings as a setting object done
+- sends no more than 20 messages in 30 seconds

@@ -3,6 +3,7 @@ import socket
 class ircClient:
 	def __init__(self, options):
 		self.options = options
+		self.data = ''
 
 	def connect(self):
 		self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,8 +17,8 @@ class ircClient:
 		self.irc.close()
 
 	def recive(self):
-		temp = self.irc.recv(1024)
-		self.displayMessage(temp)
+		self.data += self.irc.recv(1024).decode('UTF-8')
+		self.handleMessage()
 
 	def send(self, msg):
 		self.irc.send(bytes(msg, 'UTF-8'))
@@ -25,15 +26,15 @@ class ircClient:
 	def privateMessage(self, msg):
 		self.send("PRIVMSG " + self.options['channel'] + " :" + msg)
 
-	def displayMessage(self, msg):
-		sMsg = msg.decode('UTF-8')
-		msgList = sMsg.splitlines()
+	def handleMessage(self):
+		msgList = self.data.splitlines()
 		for strn in msgList:
 			if 'PING' in strn:
 				self.pong(strn)
 			else: 
 				print(strn)
 
+	# replies to a ping message
 	def pong(self, msg):
 		tokens = msg.split()
 		self.send('PONG ' + tokens[1])

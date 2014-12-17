@@ -1,0 +1,9 @@
+This is a simple twitch chat bot that connects to the twitch.tv chat via IRC. The code was tested and ran with python version 3.2.3. In order to run the bot, you will need two twich accounts (one for the bot owner and one for the bot) as well as the oauth code for the bot available at: http://www.twitchapps.com/tmi/
+
+Before runing, make sure that the twitch.ini has been filled out. The bot expects that the nickname, owner, oauth code, and channel name to all be filled out.
+
+To run the bot, simply run driver.py. The bot will connect to twitchs IRC servers and join the channel specified in the ini file.
+
+Default commands:
+!exit: only available to the bot owner, turns of the bot.
+!commands: available to anyone, lists all custom commands from the ini file

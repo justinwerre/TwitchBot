@@ -73,7 +73,12 @@ class ircClient:
 		if msg['username'] == self.options['owner']:
 			if command == '!exit':
 				self.run = False
-		for com in self.commands:
-			print(com)
-			if com == command:
-				self.privateMessage(self.commands[com])
+		if command == '!commands':
+			#print out the avalible commands
+			commandString = 'Commands: ' + ', '.join(self.commands)
+			self.privateMessage(commandString)
+		else:
+			for com in self.commands:
+				print(com)
+				if com == command:
+					self.privateMessage(self.commands[com])

@@ -4,7 +4,7 @@ import FileHandler
 class TestFileHandler(unittest.TestCase):
 	def setUp(self):
 		self.fh = FileHandler.FileHandler()
-		self.options = self.fh.getOptions("testconfig.ini")
+		self.options = self.fh.getOptions("testconfig.ini")['ircsettings']
 
 	def tearDown(self):
 		del self.fh

@@ -1,4 +1,3 @@
-import CustomExceptions
 import FileHandler
 import IRC
 

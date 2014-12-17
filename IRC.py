@@ -1,13 +1,18 @@
-import CustomExceptions
+from collections import deque
 import socket
 import re
+import time
 
 class ircClient:
 	def __init__(self, options):
 		self.options = options['ircsettings']
 		self.commands = options['commands']
+		#message data recived from the server
 		self.data = ''
+		#flag to indicate whether the bot should continue to run
 		self.run = True
+		#queue to make sure that no more then 20 commands are sent every 30 seconds
+		self.messageTimes = deque()
 
 	#connect to the irc server
 	def connect(self):
@@ -29,7 +34,16 @@ class ircClient:
 
 	#send the message to the server
 	def send(self, msg):
-		self.irc.send(bytes(msg, 'UTF-8'))
+		self.messageTimes.append(time.time())
+		# make sure we haven't send more then 20 messages in the last 30 seconds
+		if len(self.messageTimes) < 20:
+			self.irc.send(bytes(msg, 'UTF-8'))
+		#remove any times that are more then 30 seconds old
+		finishedTriming = False
+		while not finishedTriming and len(self.messageTimes) > 0:
+			if self.messageTimes[0] < time.time() + 30:
+				self.messageTimes.popleft()
+			else: finishedTriming = True
 
 	#format a string to to the correct form for a message to the irc server
 	def privateMessage(self, msg):
@@ -79,6 +93,5 @@ class ircClient:
 			self.privateMessage(commandString)
 		else:
 			for com in self.commands:
-				print(com)
 				if com == command:
 					self.privateMessage(self.commands[com])
